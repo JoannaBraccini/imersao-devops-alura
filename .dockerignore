@@ -1,0 +1,37 @@
+# Ambientes virtuais
+venv/
+env/
+.venv/
+
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Arquivos de desenvolvimento
+.git/
+.gitignore
+.vscode/
+.idea/
+
+# Documentação
+readme.md
+README.md
+*.md
+
+# Logs
+*.log
+
+# Banco de dados local (será criado dentro do container)
+escola.db
+
+# Arquivos temporários
+.DS_Store
+Thumbs.db
+
+# Arquivos de teste
+tests/
+*_test.py
+test_*.py
