@@ -130,7 +130,7 @@ docker-compose logs -f api
 
 Se tudo estiver funcionando, você verá algo como:
 
-```
+```sh
 api-imersao-alura | INFO: Uvicorn running on http://0.0.0.0:8000
 ```
 
@@ -171,6 +171,81 @@ docker-compose exec api bash
 # Docker direto
 docker exec -it <container-id> bash
 ```
+
+---
+
+## Autenticando no Google Cloud
+
+```sh
+gcloud auth login
+gcloud config set project PROJECT_ID
+gcloud run deploy --port=8000
+```
+
+## Gerenciando recursos do Google Cloud
+
+### Para evitar cobranças, encerre os recursos quando não estiver usando
+
+**1. Parar/Deletar o serviço Cloud Run:**
+
+```sh
+# Listar serviços ativos
+gcloud run services list
+
+# Deletar um serviço específico
+gcloud run services delete NOME_DO_SERVIÇO --region=REGIAO
+
+# Exemplo:
+gcloud run services delete api-imersao-alura --region=us-central1
+```
+
+**2. Verificar outros recursos ativos:**
+
+```sh
+# Ver todos os recursos que podem gerar cobrança
+gcloud compute instances list
+gcloud sql instances list
+gcloud container clusters list
+```
+
+**3. Definir orçamento e alertas:**
+
+- Acesse [Google Cloud Console](https://console.cloud.google.com/)
+- Vá em "Faturamento" → "Orçamentos e alertas"
+- Configure alertas para ser notificado sobre gastos
+
+**4. Usar sempre o Free Tier:**
+
+- Cloud Run: 2 milhões de solicitações/mês
+- 180.000 GB-segundos de CPU/mês
+- 360.000 GB-segundos de memória/mês
+
+**5. Parar o projeto temporariamente:**
+
+```sh
+# Desabilitar APIs (isso para todos os serviços)
+gcloud services disable run.googleapis.com
+gcloud services disable cloudbuild.googleapis.com
+```
+
+**6. Deletar o projeto inteiro (CUIDADO!):**
+
+```sh
+# Isso remove TUDO do projeto
+gcloud projects delete PROJECT_ID
+```
+
+### Comandos úteis para monitorar gastos
+
+```sh
+# Ver faturamento atual
+gcloud billing accounts list
+
+# Ver uso de recursos
+gcloud logging read "resource.type=cloud_run_revision" --limit=10
+```
+
+**⚠️ IMPORTANTE:** Sempre verifique o [Google Cloud Console](https://console.cloud.google.com/) para confirmar que todos os recursos foram encerrados!
 
 ---
 
